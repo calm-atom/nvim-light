@@ -58,7 +58,24 @@ vim.o.confirm = true
 -- Space as leader key
 vim.g.mapleader = vim.keycode('<Space>')
 
+-- Use a light background
+vim.o.background = 'light'
+
+-- Fix clipboard over SSH
+vim.g.clipboard = {
+  name = 'OSC 52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+  },
+  paste = {
+    ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+  },
+}
+
 -- Basic clipboard interaction
+-- Default yank goes to register
 vim.keymap.set({'n', 'x'}, 'gy', '"+y', {desc = 'Copy to clipboard'})
 vim.keymap.set({'n', 'x'}, 'gp', '"+p', {desc = 'Paste clipboard content'})
 
