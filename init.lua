@@ -27,6 +27,9 @@ vim.o.expandtab = true
 -- Don't show mode
 vim.o.showmode = false
 
+-- Minimum number of screen lines to keep above and below the cursor
+vim.o.scrolloff = 8
+
 -- Enable 24-bit colors
 vim.o.termguicolors = true
 
