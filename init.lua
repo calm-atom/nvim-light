@@ -87,4 +87,10 @@ vim.api.nvim_create_autocmd('PackChanged', {
 vim.pack.add({
   {src = 'https://github.com/neovim/nvim-lspconfig'},
   {src = 'https://github.com/nvim-mini/mini.nvim', version = 'main'},
+  {src = 'https://github.com/oskarnurm/koda.nvim'}
 })
+
+-- ========================================================================== --
+-- ==                         PLUGIN CONFIGURATION                         == --
+-- ========================================================================== --
+vim.cmd.colorscheme('koda')

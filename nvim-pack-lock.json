@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "koda.nvim": {
+      "rev": "c94415d9c63c1519216fe195ae957974e7e3250c",
+      "src": "https://github.com/oskarnurm/koda.nvim"
+    },
     "mini.nvim": {
       "rev": "577d2dcb558efce1518c45a76345e01bf346c8e8",
       "src": "https://github.com/nvim-mini/mini.nvim",
