@@ -65,29 +65,54 @@ vim.keymap.set({'n', 'x'}, 'gp', '"+p', {desc = 'Paste clipboard content'})
 -- ========================================================================== --
 -- ==                               PLUGINS                                == --
 -- ========================================================================== --
-vim.api.nvim_create_autocmd('PackChanged', {
-  desc = 'execute plugin callbacks',
-  callback = function(event)
-    local data = event.data or {}
-    local kind = data.kind or ''
-    local callback = vim.tbl_get(data, 'spec', 'data', 'on_' .. kind)
 
-    if type(callback) ~= 'function' then
-      return
-    end
+local mini = {}
 
-    -- possible callbacks: on_install, on_update, on_delete
-    local ok, err = pcall(callback, data)
-    if not ok then
-      vim.notify(err, vim.log.levels.ERROR)
-    end
-  end,
+mini.branch = 'main'
+mini.packpath = vim.fn.stdpath('data') .. '/site'
+
+function mini.require_deps()
+  local mini_path = mini.packpath .. '/pack/deps/start/mini.nvim'
+
+  if not vim.uv.fs_stat(mini_path) then
+    print('Installing mini.nvim....')
+    vim.fn.system({
+      'git',
+      'clone',
+      '--filter=blob:none',
+      'https://github.com/nvim-mini/mini.nvim',
+      string.format('--branch=%s', mini.branch),
+      mini_path
+    })
+
+    vim.cmd('packadd mini.nvim | helptags ALL')
+  end
+
+  local ok, deps = pcall(require, 'mini.deps')
+  if not ok then
+    return {}
+  end
+
+  return deps
+end
+
+local MiniDeps = mini.require_deps()
+if not MiniDeps.setup then
+  return
+end
+
+-- See :help MiniDeps.config
+MiniDeps.setup({
+  path = {
+    package = mini.packpath,
+  },
 })
 
-vim.pack.add({
-  {src = 'https://github.com/neovim/nvim-lspconfig'},
-  {src = 'https://github.com/nvim-mini/mini.nvim', version = 'main'},
-  {src = 'https://github.com/oskarnurm/koda.nvim'}
+MiniDeps.add('neovim/nvim-lspconfig')
+MiniDeps.add('oskarnurm/koda.nvim')
+MiniDeps.add({
+  source = 'nvim-mini/mini.nvim',
+  checkout = mini.branch,
 })
 
 -- ========================================================================== --
