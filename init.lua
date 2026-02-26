@@ -128,6 +128,10 @@ MiniDeps.setup({
 MiniDeps.add('neovim/nvim-lspconfig')
 MiniDeps.add('oskarnurm/koda.nvim')
 MiniDeps.add({
+  source = 'zenbones-theme/zenbones.nvim',
+  depends = { 'rktjmp/lush.nvim' },
+})
+MiniDeps.add({
   source = 'nvim-mini/mini.nvim',
   checkout = mini.branch,
 })
@@ -135,4 +139,4 @@ MiniDeps.add({
 -- ========================================================================== --
 -- ==                         PLUGIN CONFIGURATION                         == --
 -- ========================================================================== --
-vim.cmd.colorscheme('koda')
+vim.cmd.colorscheme('rosebones')
