@@ -132,6 +132,13 @@ MiniDeps.add({
   depends = { 'rktjmp/lush.nvim' },
 })
 MiniDeps.add({
+  source = 'NeogitOrg/neogit',
+  depends = {
+    'nvim-lua/plenary.nvim',
+    'sindrets/diffview.nvim',
+  },
+})
+MiniDeps.add({
   source = 'nvim-mini/mini.nvim',
   checkout = mini.branch,
 })
@@ -192,6 +199,19 @@ require('mini.completion').setup({
     auto_setup = false,
   },
 })
+
+-- See :help neogit
+require('neogit').setup({
+  -- Use mini.pick for selecting items
+  integrations = {
+    telescope = nil,
+    fzf_lua = nil,
+    mini_pick = true,
+  },
+})
+
+-- Toggle Neogit
+vim.keymap.set('n', '<leader>ng', '<cmd>Neogit<cr>', {desc = 'Git (Neogit)'})
 
 require('conform').setup({
   formatters_by_ft = {
