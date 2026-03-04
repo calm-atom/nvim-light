@@ -149,7 +149,6 @@ MiniDeps.add({
 vim.cmd.colorscheme('rosebones')
 
 require('mini.icons').setup({})
-require('mini.surround').setup({})
 require('mini.comment').setup({})
 require('mini.notify').setup({
   lsp_progress = {enable = false},
