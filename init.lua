@@ -213,6 +213,7 @@ vim.keymap.set('n', '<leader>ng', '<cmd>Neogit<cr>', {desc = 'Git (Neogit)'})
 require('conform').setup({
   formatters_by_ft = {
     python = { 'ruff_fix', 'ruff_format', 'ruff_organize_imports' },
+    terraform = { 'terraform_fmt' },
   },
   format_on_save = {
     timeout_ms = 500,
@@ -280,3 +281,32 @@ vim.lsp.enable('pyright')
 -- Python: ruff for linting and formatting
 -- uv tool install ruff
 vim.lsp.enable('ruff')
+
+-- Terraform: terraform-ls
+-- https://www.hashicorp.com/en/official-packaging-guide
+vim.lsp.enable('terraformls')
+
+-- YAML: yaml-language-server
+-- npm install -g yaml-language-server
+vim.lsp.config('yamlls', {
+  settings = {
+    yaml = {
+      schemas = {
+        ["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
+          "azure-pipelines.yml",
+          "/*.azure-pipelines.yml",
+          "az-pipeline.yml",
+          "azure-pipelines.yaml",
+        },
+        -- Docker Compose
+        ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = {
+          "docker-compose*.yml",
+          "docker-compose*.yaml",
+          "compose.yml",
+          "compose.yaml",
+        },
+      }
+    }
+  }
+})
+vim.lsp.enable('yamlls')
