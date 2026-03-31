@@ -164,6 +164,7 @@ require('mini.notify').setup({
   lsp_progress = {enable = false},
 })
 require('mini.bufremove').setup({})
+require('mini.indentscope').setup({})
 
 -- File explorer
 local mini_files = require('mini.files')
