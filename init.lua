@@ -13,7 +13,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 
 -- Clear search highlights after submit
-vim.o.hlsearch = false
+vim.o.hlsearch = true
 
 -- Tab width
 vim.o.tabstop = 2
