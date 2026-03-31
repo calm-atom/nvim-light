@@ -215,7 +215,7 @@ require('conform').setup({
   },
   format_on_save = {
     timeout_ms = 500,
-    lsp_fallback = true,
+    lsp_format = "fallback",
   },
 })
 
@@ -240,7 +240,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- Use conform for formatting
     vim.keymap.set({'n', 'x'}, 'gq', function()
-      require('conform').format({ async = true, lsp_fallback = true })
+      require('conform').format({ async = true, lsp_format = 'fallback' })
     end, opts)
 
     -- Diagnostic keymaps
@@ -262,7 +262,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- ========================================================================== --
 -- Python: pyright
 -- uv tool install pyright
-vim.lsp.enable('pyright', {
+vim.lsp.config('pyright', {
   settings = {
     pyright = {
       disableOrganizeImports = true,
@@ -274,6 +274,7 @@ vim.lsp.enable('pyright', {
     }
   }
 })
+vim.lsp.enable('pyright')
 
 -- Python: ruff for linting and formatting
 -- uv tool install ruff
