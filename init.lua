@@ -222,13 +222,12 @@ require('conform').setup({
 -- Treesitter setup
 -- NOTE: the list of supported parsers is in the documentation:
 -- https://github.com/nvim-treesitter/nvim-treesitter/blob/main/SUPPORTED_LANGUAGES.md
-local ts_parsers = {'lua', 'vim', 'vimdoc', 'c', 'query'}
+local ts_parsers = {'lua', 'vim', 'vimdoc', 'c', 'query', 'python'}
 
-vim.g.ts_enable = {
-  parsers = ts_parsers,
+require('nvim-treesitter').setup({
+  ensure_installed = ts_parsers,
   auto_install = true,
-  highlights = true,
-}
+})
 
 -- LSP setup
 vim.api.nvim_create_autocmd('LspAttach', {
