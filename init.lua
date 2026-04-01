@@ -317,3 +317,7 @@ vim.lsp.config('yamlls', {
   }
 })
 vim.lsp.enable('yamlls')
+
+-- Dockerfile: dockerfile-language-server
+-- npm install -g dockerfile-language-server-nodejs
+vim.lsp.enable('dockerls')
