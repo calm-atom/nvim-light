@@ -153,6 +153,12 @@ MiniDeps.add({
   },
 })
 
+MiniDeps.add({
+  source = "saghen/blink.cmp",
+  depends = { "rafamadriz/friendly-snippets" },
+  checkout = "v1.10.1",
+})
+
 -- ========================================================================== --
 -- ==                         PLUGIN CONFIGURATION                         == --
 -- ========================================================================== --
@@ -187,11 +193,15 @@ vim.keymap.set('n', '<leader>fs', '<cmd>Pick buf_lines<cr>', {desc = 'Buffer loc
 
 require('mini.statusline').setup({})
 require('mini.extra').setup({})
-require('mini.snippets').setup({})
-require('mini.completion').setup({
-  lsp_completion = {
-    source_func = 'omnifunc',
-    auto_setup = false,
+
+-- Completion and snippets
+require('blink.cmp').setup({
+  keymap = { preset = 'default' },
+  appearance = {
+    nerd_font_variant = 'mono',
+  },
+  sources = {
+    default = { 'lsp', 'path', 'snippets', 'buffer' },
   },
 })
 
@@ -253,9 +263,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local id = vim.tbl_get(event, 'data', 'client_id')
     local client = id and vim.lsp.get_client_by_id(id)
 
-    if client and client:supports_method('textDocument/completion') then
-      vim.bo[event.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
-    end
   end,
 })
 
