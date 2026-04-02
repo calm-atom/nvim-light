@@ -30,9 +30,6 @@ vim.o.showmode = false
 -- Minimum number of screen lines to keep above and below the cursor
 vim.o.scrolloff = 8
 
--- Enable 24-bit colors
-vim.o.termguicolors = true
-
 -- Faster completion
 vim.o.updatetime = 250
 
@@ -46,8 +43,8 @@ vim.o.signcolumn = 'yes'
 vim.o.winborder = 'rounded'
 
 -- Open new split panes to right and below
-vim.opt.splitright = true
-vim.opt.splitbelow = true
+vim.o.splitright = true
+vim.o.splitbelow = true
 
 -- Save undo history
 vim.o.undofile = true
@@ -190,6 +187,9 @@ vim.keymap.set('n', '<leader>ff', '<cmd>Pick files<cr>', {desc = 'Search all fil
 vim.keymap.set('n', '<leader>fg', '<cmd>Pick grep_live<cr>', {desc = 'Search in project'})
 vim.keymap.set('n', '<leader>fd', '<cmd>Pick diagnostic<cr>', {desc = 'Search diagnostics'})
 vim.keymap.set('n', '<leader>fs', '<cmd>Pick buf_lines<cr>', {desc = 'Buffer local search'})
+vim.keymap.set('n', '<leader>fr', '<cmd>Pick lsp scope="references"<cr>', {desc = 'Search LSP references'})
+vim.keymap.set('n', '<leader>ds', '<cmd>Pick lsp scope="document_symbol"<cr>', {desc = 'Search document symbols'})
+vim.keymap.set('n', '<leader>ws', '<cmd>Pick lsp scope="workspace_symbol"<cr>', {desc = 'Search workspace symbols'})
 
 require('mini.statusline').setup({})
 require('mini.extra').setup({})
@@ -241,19 +241,20 @@ require('nvim-treesitter').setup({
   auto_install = true,
 })
 
+vim.api.nvim_create_autocmd('FileType', {
+  desc = 'Start Treesitter highlighting',
+  callback = function(event)
+    pcall(vim.treesitter.start, event.buf)
+  end,
+})
+
 -- LSP setup
 vim.api.nvim_create_autocmd('LspAttach', {
   desc = 'LSP actions',
   callback = function(event)
     local opts = {buffer = event.buf}
-    vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
     vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
     vim.keymap.set('n', 'grd', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
-
-    -- Use conform for formatting
-    vim.keymap.set({'n', 'x'}, 'gq', function()
-      require('conform').format({ async = true, lsp_format = 'fallback' })
-    end, opts)
 
     -- Diagnostic keymaps
     vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>', opts)
@@ -269,6 +270,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- ========================================================================== --
 -- ==                           LSP SERVERS                                == --
 -- ========================================================================== --
+-- Enable blink to get completions from LSPs
+vim.lsp.config('*', {
+  capabilities = require('blink.cmp').get_lsp_capabilities()
+})
+
 -- Python: pyright
 -- uv tool install pyright
 vim.lsp.config('pyright', {
