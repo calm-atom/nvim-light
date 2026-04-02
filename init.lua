@@ -13,7 +13,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 
 -- Clear search highlights after submit
-vim.o.hlsearch = true
+vim.o.hlsearch = false
 
 -- Tab width
 vim.o.tabstop = 2
@@ -206,9 +206,10 @@ vim.keymap.set('n', '<leader>ff', '<cmd>Pick files<cr>', {desc = 'Search all fil
 vim.keymap.set('n', '<leader>fg', '<cmd>Pick grep_live<cr>', {desc = 'Search in project'})
 vim.keymap.set('n', '<leader>fd', '<cmd>Pick diagnostic<cr>', {desc = 'Search diagnostics'})
 vim.keymap.set('n', '<leader>fs', '<cmd>Pick buf_lines<cr>', {desc = 'Buffer local search'})
-vim.keymap.set('n', '<leader>fr', '<cmd>Pick lsp scope="references"<cr>', {desc = 'Search LSP references'})
-vim.keymap.set('n', '<leader>ds', '<cmd>Pick lsp scope="document_symbol"<cr>', {desc = 'Search document symbols'})
-vim.keymap.set('n', '<leader>ws', '<cmd>Pick lsp scope="workspace_symbol"<cr>', {desc = 'Search workspace symbols'})
+vim.keymap.set('n', '<leader>gc', '<cmd>Pick git_commits<cr>', {desc = 'Search Git commits'})
+vim.keymap.set('n', '<leader>gb', '<cmd>Pick git_branches<cr>', {desc = 'Search Git branches'})
+vim.keymap.set('n', '<leader>gm', '<cmd>Pick git_files scope="modified"<cr>', {desc = 'Search modified files'})
+
 
 require('mini.statusline').setup({})
 require('mini.extra').setup({})
@@ -222,6 +223,29 @@ require('blink.cmp').setup({
   sources = {
     default = { 'lsp', 'path', 'snippets', 'buffer' },
   },
+})
+
+local miniclue = require('mini.clue')
+miniclue.setup({
+  triggers = {
+    { mode = 'n', keys = '<Leader>' },
+    { mode = 'x', keys = '<Leader>' },
+    { mode = 'n', keys = 'g' },
+    { mode = 'x', keys = 'g' },
+    { mode = 'n', keys = 'z' },
+    { mode = 'x', keys = 'z' },
+    { mode = 'n', keys = ']' },
+    { mode = 'x', keys = '[' },
+  },
+  clues = {
+    miniclue.gen_clues.g(),
+    miniclue.gen_clues.z(),
+    miniclue.gen_clues.windows(),
+    { mode = 'n', keys = '<Leader>e', desc = 'File Explorer' },
+    { mode = 'n', keys = '<Leader>f', desc = '+Find' },
+    { mode = 'n', keys = '<Leader>g', desc = '+Git' },
+  },
+  window = { delay = 300 }
 })
 
 -- Buffer management
