@@ -169,6 +169,14 @@ require('mini.notify').setup({
 require('mini.bufremove').setup({})
 require('mini.indentscope').setup({})
 
+require('mini.diff').setup({
+  view = {
+    style = 'sign',
+    signs = { add = '+', change = '~', delete='-'},
+  }
+})
+vim.keymap.set('n', '<leader>go', '<cmd>lua MiniDiff.toggle_overlay()<cr>', {desc = 'Toggle inline Git diff'})
+
 -- File explorer
 local mini_files = require('mini.files')
 mini_files.setup({})
