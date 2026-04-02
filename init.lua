@@ -12,6 +12,10 @@ vim.opt.relativenumber = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
+--- Enable 24-bit colors
+--- Required when working via SSH
+vim.o.termguicolors = true
+
 -- Clear search highlights after submit
 vim.o.hlsearch = false
 
