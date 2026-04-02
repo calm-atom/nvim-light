@@ -140,6 +140,8 @@ MiniDeps.add({
   checkout = mini.branch,
 })
 
+MiniDeps.add({source = 'folke/flash.nvim',})
+
 MiniDeps.add({
   source = 'nvim-treesitter/nvim-treesitter',
   checkout = 'main',
@@ -168,6 +170,15 @@ require('mini.notify').setup({
 })
 require('mini.bufremove').setup({})
 require('mini.indentscope').setup({})
+
+require('flash').setup({
+  modes = {
+    char = { jump_labels = true }
+  }
+})
+vim.keymap.set({'n', 'x', 'o'}, 's', function() require('flash').jump() end, {desc = 'Flash jump'}) 
+vim.keymap.set({'n', 'x', 'o'}, 'S', function() require('flash').treesitter() end, {desc = 'Flash treesitter selection'}) 
+
 
 require('mini.diff').setup({
   view = {
