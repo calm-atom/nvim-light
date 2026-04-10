@@ -216,6 +216,12 @@ vim.keymap.set('n', '<leader>gc', '<cmd>Pick git_commits<cr>', {desc = 'Search G
 vim.keymap.set('n', '<leader>gb', '<cmd>Pick git_branches<cr>', {desc = 'Search Git branches'})
 vim.keymap.set('n', '<leader>gm', '<cmd>Pick git_files scope="modified"<cr>', {desc = 'Search modified files'})
 
+vim.keymap.set('n', ']b', '<cmd>bnext<cr>', {desc = 'Next buffer'})
+vim.keymap.set('n', '[b', '<cmd>bprev<cr>', {desc = 'Previous buffer'})
+vim.keymap.set('n', '<leader>bb', '<c-^>', {desc = 'Toggle last buffer'})
+
+
+
 
 require('mini.statusline').setup({})
 require('mini.extra').setup({})
