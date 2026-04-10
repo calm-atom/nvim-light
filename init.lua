@@ -350,12 +350,20 @@ vim.lsp.enable('terraformls')
 vim.lsp.config('yamlls', {
   settings = {
     yaml = {
+      schemastore = { enable = false },
+      validate = true,
       schemas = {
         ["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
           "azure-pipelines.yml",
           "/*.azure-pipelines.yml",
           "az-pipeline.yml",
           "azure-pipelines.yaml",
+          "**/cicd/*.yml",
+          "**/cicd/*.yaml",
+          "**/.cicd/*.yml",
+          "**/.cicd/*.yaml",
+          "**/pipelines/*.yml",
+          "**/pipelines/*.yaml",
         },
         -- Docker Compose
         ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = {
