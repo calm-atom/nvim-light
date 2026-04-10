@@ -148,7 +148,7 @@ MiniDeps.add({source = 'folke/flash.nvim',})
 
 MiniDeps.add({
   source = 'nvim-treesitter/nvim-treesitter',
-  checkout = 'main',
+  checkout = 'master',
   hooks = {
     post_checkout = function()
       vim.cmd.TSUpdate()
@@ -284,17 +284,12 @@ require('conform').setup({
 -- NOTE: the list of supported parsers is in the documentation:
 -- https://github.com/nvim-treesitter/nvim-treesitter/blob/main/SUPPORTED_LANGUAGES.md
 local ts_parsers = {'lua', 'vim', 'vimdoc', 'c', 'query', 'python'}
-
-require('nvim-treesitter').setup({
+local configs = require('nvim-treesitter.configs')
+configs.setup({
   ensure_installed = ts_parsers,
   auto_install = true,
-})
-
-vim.api.nvim_create_autocmd('FileType', {
-  desc = 'Start Treesitter highlighting',
-  callback = function(event)
-    pcall(vim.treesitter.start, event.buf)
-  end,
+  highlight = { enable = true },
+  indent = {enable = true },
 })
 
 -- LSP setup
@@ -321,7 +316,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- ========================================================================== --
 -- Enable blink to get completions from LSPs
 vim.lsp.config('*', {
-  capabilities = require('blink.cmp').get_lsp_capabilities()
+  capabilities = require('blink.cmp').get_lsp_capabilities(nil, true)
 })
 
 -- Python: pyright
