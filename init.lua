@@ -162,6 +162,8 @@ MiniDeps.add({
   checkout = "v1.10.1",
 })
 
+MiniDeps.add({ source = "b0o/SchemaStore.nvim" })
+
 -- ========================================================================== --
 -- ==                         PLUGIN CONFIGURATION                         == --
 -- ========================================================================== --
@@ -371,3 +373,15 @@ vim.lsp.enable('yamlls')
 -- Dockerfile: dockerfile-language-server
 -- npm install -g dockerfile-language-server-nodejs
 vim.lsp.enable('dockerls')
+
+-- JSON: vscode-json-language-server
+-- npm install -g vscode-langservers-extracted
+vim.lsp.config("jsonls", {
+  settings = {
+    json = {
+      schemas = require("schemastore").json.schemas(),
+      validate = { enable = true },
+    },
+  },
+})
+vim.lsp.enable("jsonls")
